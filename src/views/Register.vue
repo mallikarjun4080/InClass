@@ -44,7 +44,7 @@
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
-          </div>
+        </div>
       </div>
     </div>
     </div>
@@ -53,7 +53,7 @@
         <div class="card-body">
           <h4 class="card-title">Congrats! You've Registered</h4>
           <p class="card-text">
-            {{newUser.FirstName}} {{newUser.LastName}}
+            {{newUser.FirstName}} {{newUser.LastName}} 
           </p>
         </div>
       </div>
@@ -65,7 +65,6 @@
 import { Globals } from "@/models/api";
 import { Register } from "@/models/users";
 import toastr from 'toastr';
-import 'toastr/build/toastr.css';
 
 export default {
     data: ()=> ({
@@ -77,10 +76,10 @@ export default {
             try {
               const m = await Register(this.data);
               this.newUser = m;
-              toastr.success("You've registered successfully")
+              toastr.success("You've registered successfully!")
             } catch (error) {
               Globals.errors.push(error);
-              toastr.error(error.msg);
+              toastr.error(error.message);
             }
         }
     }
@@ -88,4 +87,5 @@ export default {
 </script>
 
 <style>
+
 </style>

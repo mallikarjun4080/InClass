@@ -5,10 +5,10 @@
       <div class="card-header">
         <ul class="nav nav-pills card-header-pills">
           <li class="nav-item">
-            <a class="nav-link active" href="/Register">Register</a>
+            <a class="nav-link " href="/Register">Register</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/Login">Login</a>
+            <a class="nav-link active" href="/Login">Login</a>
           </li>
           <li class="nav-item">
             <a class="nav-link disabled" href="#">Single Sign in</a>
@@ -23,7 +23,7 @@
                   <label for="Email">Email</label>
                   <input type="text" v-model="data.email"
                     class="form-control" name="Email" id="Email" aria-describedby="helpEmail" placeholder="Email">
-                  <small id="helpEmail" class="form-text text-muted">If you have a middle name you can enter that too</small>
+                  <small id="helpEmail" class="form-text text-muted">You can use any email that you've use on our site</small>
                 </div>
                 <div class="form-group">
                   <label for="Password">Password</label>
@@ -32,20 +32,9 @@
                 </div>
                 <button type="submit" class="btn btn-primary">Login</button>
             </form>
-          </div>
-
-      </div>
-    </div>
-    </div>
-    <div class="col-lg-6">
-      <div class="card border-success" v-if="newUser">
-        <div class="card-body">
-          <h4 class="card-title">Congrats! You've Registered</h4>
-          <p class="card-text">
-            {{newUser.FirstName}} {{newUser.LastName}}
-          </p>
         </div>
       </div>
+    </div>
     </div>
 </div>
 </template>
@@ -54,7 +43,7 @@
 import { Globals } from "@/models/api";
 import { Login } from "@/models/users";
 import toastr from 'toastr';
-import 'toastr/build/toastr.css';
+
 
 export default {
     data: ()=> ({
@@ -65,13 +54,11 @@ export default {
         async submit(){
             try {
               const m = await Login(this.data);
-              this.newUser = m.user;
-              Globals.user = m.user;
-              Globals.token = m.token;
-              toastr.success("You've logged in successfully")
+              this.$router.push(Globals.redirectRoute)
+              toastr.success("You've logged in successfully!")
             } catch (error) {
               Globals.errors.push(error);
-              toastr.error(error.msg);
+              toastr.error(error.message);
             }
         }
     }
@@ -79,4 +66,5 @@ export default {
 </script>
 
 <style>
+
 </style>

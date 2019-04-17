@@ -7,7 +7,7 @@ const JWT_SECRET = process.env.JWT_SECRET || 'some long string..';
 
 const model = {
     async getAll(){
-        return await conn.query("SELECT * FROM 2019Spring_Persons");
+        return await conn.query("SELECT * FROM 2019Spring_Persons");   
     },
     async get(id){
         const data = await conn.query("SELECT * FROM 2019Spring_Persons WHERE Id=?", id);
@@ -30,7 +30,11 @@ const model = {
         );
         return await model.get(data.insertId);
     },
+    getFromToken(token){
+        return jwt.verify(token, JWT_SECRET);
+    },
     async login(email, password){
+        //console.log({ email, password })
         const data = await conn.query(`SELECT * FROM 2019Spring_Persons P
                         Join 2019Spring_ContactMethods CM On CM.Person_Id = P.id
                     WHERE CM.Value=?`, email);
@@ -39,8 +43,8 @@ const model = {
         }
         const x = await bcrypt.compare(password, data[0].Password);
         if(x){
-            const user = { ...data[0],password: null};
-            return {user,token:jwt.sign(user,JWT_SECRET)} ;
+            const user = { ...data[0], password: null };
+            return { user, token: jwt.sign(user, JWT_SECRET) };
         }else{
             throw Error('Wrong Password');
         }
@@ -57,7 +61,7 @@ const model = {
             await conn.query(`Update 2019Spring_Persons P
                             Set ?
                         WHERE P.id=?`,[ {Password: hashedPassword }, data[0].id]);
-            return { status: "success", msg: "Password Succesfully Changed" };
+            return { status: "success", message: "Password Succesfully Changed" };
         }else{
             throw Error('Wrong Password');
         }

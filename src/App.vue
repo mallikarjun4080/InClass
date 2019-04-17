@@ -7,8 +7,9 @@
         <button type="button" class="close" aria-label="Close" @click="Globals.deleteError(i)">
           <span aria-hidden="true">&times;</span>
         </button>
-        <strong>{{e.msg}}</strong>
+        <strong>{{e.message}}</strong> 
       </div>
+      
       <router-view/>
     </div>
   </div>
@@ -17,6 +18,7 @@
 <script>
 import Nav from "@/components/Nav";
 import { Globals } from "@/models/api";
+
 export default {
   data: ()=>({
     Globals: Globals
@@ -29,4 +31,5 @@ export default {
 
 
 <style lang="scss">
+
 </style>
