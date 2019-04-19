@@ -8,7 +8,7 @@ import { Globals } from '@/models/api';
 
 Vue.use(Router)
 
-function gaurd(to, from, next){
+function gaurd(to, from, next) {
 
 }
 
