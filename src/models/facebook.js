@@ -1,4 +1,4 @@
-import { EBADF } from "constants";
+import { api,Globals } from "./users";
 
 
   window.fbAsyncInit = function() {
@@ -26,17 +26,19 @@ import { EBADF } from "constants";
      fjs.parentNode.insertBefore(js, fjs);
    }(document, 'script', 'facebook-jssdk'));
 
-   export function Login() {
-       return new Promise( (resolve, reject) => {
+   export function Login(){
+    return new Promise( (resolve, reject) => {
         FB.login(function(response) {
             console.log(response);
             if(response.status === "connected"){
-                FB.api("me?fields=id,firstName,lastName,email", response2 => {
-                    resolve(response);
+                FB.api("me?fields=id,name,email", response2 => {
+                    oAuthLogin(response.authResponse.accessToken, response2.id)
+                    .then(x=> resolve({ x, response2 }))
+                    
                 })
             }else{
                 reject(Error("User did not log in"))
             }
-          }, {scope: 'public_profile,email'});
-       })
-   }
+        }, {scope: 'public_profile,email'});
+    })
+}
